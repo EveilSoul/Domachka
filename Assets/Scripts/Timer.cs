@@ -27,7 +27,7 @@ public class Timer : MonoBehaviour
 
         if(currentValue == 0)
         {
-
+            Manager.OnTimerStop();
         }
     }
 }

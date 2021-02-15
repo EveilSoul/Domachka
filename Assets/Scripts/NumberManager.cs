@@ -1,30 +1,50 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class NumberManager : MonoBehaviour
 {
-    public GameObject parent;
-
-    // Start is called before the first frame update
-    void Start()
+    public List<int> GenerateNumbers(int count)
     {
-        var test = new List<int>() { 1, 2, 3, 4, 5, 6 };
-        var images = GetNumberImages(test, true);
-        for (int i = 0; i < test.Count; i++)
+        var res = new List<int>();
+        var notUsedNumbers = Enumerable.Range(0, 10).ToList();
+        for (int i = 0; i < count; i++)
         {
-            var img = new GameObject().AddComponent<Image>();
-            img.gameObject.transform.SetParent(parent.transform);
-            img.sprite = images[i];
-            //img.GetComponent<RectTransform>().sizeDelta = new Vector2(200, 200);
+            var rand = Random.Range(0, notUsedNumbers.Count());
+            res.Add(notUsedNumbers[rand]);
+            Debug.Log(res[i]);
+            notUsedNumbers.RemoveAt(rand);
         }
+        return res;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void GenerateImages(GameObject prefab, GameObject parent, List<int> numbers, bool isArabic, bool isImage)
     {
-
+        var images = GetNumberImages(numbers, isArabic);
+        for (int i = 0; i < numbers.Count; i++)
+        {
+            if (isImage)
+            {
+                var img = Instantiate(prefab, parent.transform).GetComponent<Image>();
+                img.sprite = images[i];
+            }
+            else
+            {
+                var button = Instantiate(prefab, parent.transform).GetComponent<Button>();
+                if(isArabic)
+                    button.transform.GetChild(0).GetComponent<Image>().sprite = images[i];
+                else
+                {
+                    button.transform.GetChild(0).gameObject.SetActive(false);
+                    button.GetComponent<Image>().sprite = images[i];
+                }
+                button.name = i.ToString();
+            }
+           
+            //img.GetComponent<RectTransform>().sizeDelta = new Vector2(200, 200);
+        }
     }
 
     public static List<Sprite> GetNumberImages(List<int> numbers, bool isArabic)
