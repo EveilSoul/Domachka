@@ -145,6 +145,7 @@ public class Manager : MonoBehaviour
         TestPanel.SetActive(false);
         MakeChoosePanel.SetActive(false);
         MainPanel.SetActive(true);
+        totalTestCount = 0;
     }
 
     public void SetNumberCount(int ñount)
