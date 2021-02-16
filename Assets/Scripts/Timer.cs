@@ -8,7 +8,7 @@ public class Timer : MonoBehaviour
     public Text TimerText;
     public Manager Manager;
     
-    public int startValue = 5;
+    public int startValue = 2;
     private float currentValue;
 
     // Start is called before the first frame update
